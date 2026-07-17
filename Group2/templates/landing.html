@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudentPath — Student Guidance Dashboard</title>
+  <meta name="description" content="AI-powered student guidance system with career prediction, performance forecasting, stress analysis, and intelligent chatbot advisor.">
+  <meta property="og:title" content="StudentPath — Student Guidance Dashboard">
+  <meta property="og:description" content="AI-powered student guidance with ML predictions and chatbot advisor.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230D7377' width='100' height='100' rx='15'/><text x='50' y='65' text-anchor='middle' fill='white' font-size='50' font-family='serif'>S</text></svg>">
+</head>
+<body class="landing">
+
+  <!-- Sticky Nav -->
+  <nav class="landing-nav">
+    <a href="/" class="landing-nav-logo">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="6" fill="currentColor"/>
+        <path d="M8 24V8h8c2.2 0 4 1.8 4 4s-1.8 4-4 4H12v8H8zm4-8h3c1.1 0 2-.9 2-2s-.9-2-2-2h-3v4z" fill="#1A1A2E"/>
+        <circle cx="22" cy="22" r="4" fill="#E8A838"/>
+      </svg>
+      <span>StudentPath</span>
+    </a>
+    <ul class="landing-nav-links">
+      <li><a href="#modules">Modules</a></li>
+      <li><a href="#architecture">How It Works</a></li>
+      <li><a href="{{ url_for('career') }}" class="landing-nav-cta">Launch Demo</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">ML-Powered Student Guidance</div>
+    <h1 class="hero-title">Understand Your <span>Academic Journey</span> with AI</h1>
+    <p class="hero-subtitle">
+      A multi-model prediction system combining machine learning classifiers with an intelligent chatbot advisor — helping students navigate career choices, academic performance, and mental well-being.
+    </p>
+    <div class="hero-actions">
+      <a href="{{ url_for('career') }}" class="btn btn-primary btn-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+        Try the Demo
+      </a>
+      <a href="#architecture" class="btn btn-secondary btn-lg">How It Works</a>
+    </div>
+  </section>
+
+  <!-- Architecture Diagram -->
+  <section class="architecture-section" id="architecture">
+    <div style="max-width: 1100px; margin: 0 auto;">
+      <div class="section-label">System Architecture</div>
+      <h2 class="section-title">ML Pipeline + LLM Advisor</h2>
+      <p class="section-description">
+        The system processes student survey data through a multi-stage machine learning pipeline, then feeds prediction results as context to an LLM-powered chatbot for personalized guidance.
+      </p>
+
+      <div class="pipeline-grid">
+        <!-- Row 1 -->
+        <div class="pipeline-row">
+          <div class="pipeline-stage">
+            <div class="stage-icon">📋</div>
+            <div class="stage-number">Stage 1</div>
+            <div class="stage-title">Survey Input</div>
+            <div class="stage-detail">20–40 features across psychological, academic, environmental & social dimensions</div>
+          </div>
+          <div class="pipeline-connector">
+            <svg width="40" height="24" viewBox="0 0 40 24"><path d="M0 12h30M25 6l6 6-6 6" stroke="var(--teal)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pipeline-stage">
+            <div class="stage-icon">⚙️</div>
+            <div class="stage-number">Stage 2</div>
+            <div class="stage-title">Preprocessing</div>
+            <div class="stage-detail">Normalization, encoding, feature selection (SelectKBest, RFECV), PCA reduction</div>
+          </div>
+          <div class="pipeline-connector">
+            <svg width="40" height="24" viewBox="0 0 40 24"><path d="M0 12h30M25 6l6 6-6 6" stroke="var(--teal)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pipeline-stage">
+            <div class="stage-icon">🧠</div>
+            <div class="stage-number">Stage 3</div>
+            <div class="stage-title">ML Models</div>
+            <div class="stage-detail">9 classifiers: SVM, CatBoost, LightGBM, XGBoost, Random Forest, Gradient Boosting, AdaBoost, Bagging, Decision Tree</div>
+          </div>
+        </div>
+
+        <!-- Row connector arrow -->
+        <div class="pipeline-row-arrow">
+          <svg width="60" height="40" viewBox="0 0 60 40"><path d="M30 0v30M24 24l6 6 6-6" stroke="var(--amber)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="pipeline-row">
+          <div class="pipeline-stage highlight-stage">
+            <div class="stage-icon">📊</div>
+            <div class="stage-number">Stage 4</div>
+            <div class="stage-title">Prediction Output</div>
+            <div class="stage-detail">Career path + RIASEC profile · Final grade G3 · Stress level with confidence scores</div>
+          </div>
+          <div class="pipeline-connector">
+            <svg width="40" height="24" viewBox="0 0 40 24"><path d="M0 12h30M25 6l6 6-6 6" stroke="var(--coral)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pipeline-stage">
+            <div class="stage-icon">🔗</div>
+            <div class="stage-number">Stage 5</div>
+            <div class="stage-title">Context Builder</div>
+            <div class="stage-detail">Structured profile: career → performance → stress history assembled as LLM system context</div>
+          </div>
+          <div class="pipeline-connector">
+            <svg width="40" height="24" viewBox="0 0 40 24"><path d="M0 12h30M25 6l6 6-6 6" stroke="var(--coral)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pipeline-stage highlight-stage">
+            <div class="stage-icon">💬</div>
+            <div class="stage-number">Stage 6</div>
+            <div class="stage-title">LLM Advisor</div>
+            <div class="stage-detail">Context-aware chatbot answers career, academic & stress questions only</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pipeline-features">
+        <div class="pipeline-feature">
+          <div class="feature-icon">🎯</div>
+          <div class="feature-text">
+            <strong>Multi-Model Ensemble</strong>
+            <span>9 classifier models evaluated per prediction task with hyperparameter tuning via GridSearchCV</span>
+          </div>
+        </div>
+        <div class="pipeline-feature">
+          <div class="feature-icon">🔬</div>
+          <div class="feature-text">
+            <strong>Feature Engineering</strong>
+            <span>SelectKBest, RFECV, PCA — multiple preprocessing configurations benchmarked per model</span>
+          </div>
+        </div>
+        <div class="pipeline-feature">
+          <div class="feature-icon">💬</div>
+          <div class="feature-text">
+            <strong>Context-Aware LLM</strong>
+            <span>Prediction results injected as system context — strictly answers career, performance & stress topics only</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Module Cards -->
+  <section class="modules-section" id="modules">
+    <div class="section-label">Prediction Modules</div>
+    <h2 class="section-title">Four Ways to Understand Yourself</h2>
+    <p class="section-description">Each module uses specialized ML models trained on real student datasets.</p>
+
+    <div class="modules-grid">
+      <a href="{{ url_for('career') }}" class="module-card card-career">
+        <div class="module-card-icon icon-career">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+          </svg>
+        </div>
+        <h3>Career Prediction</h3>
+        <p>Discover your ideal career path using RIASEC personality profiling and academic strengths. CatBoost model trained on multi-dimensional student data.</p>
+        <span class="card-tag tag-career">CatBoost · RIASEC · 6 careers</span>
+      </a>
+
+      <a href="{{ url_for('performance') }}" class="module-card card-performance">
+        <div class="module-card-icon icon-performance">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+        </div>
+        <h3>Performance Prediction</h3>
+        <p>Forecast your final grade (G3) from 30+ demographic, family, lifestyle, and academic factors. Understand what drives your academic outcomes.</p>
+        <span class="card-tag tag-performance">Ensemble · 30+ features · Grade G3</span>
+      </a>
+
+      <a href="{{ url_for('stress') }}" class="module-card card-stress">
+        <div class="module-card-icon icon-stress">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <h3>Stress Level Prediction</h3>
+        <p>Assess your stress across psychological, physical, environmental, academic, and social dimensions. 20-factor model for holistic well-being insight.</p>
+        <span class="card-tag tag-stress">Multi-factor · 5 dimensions · 20 inputs</span>
+      </a>
+
+      <a href="{{ url_for('chat') }}" class="module-card card-chat">
+        <div class="module-card-icon icon-chat">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <h3>AI Advisor Chat</h3>
+        <p>Talk to an AI advisor that knows your prediction history. Get personalized guidance on career, study strategies, and stress management.</p>
+        <span class="card-tag tag-chat">LLM · Context-aware · Personalized</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>StudentPath</h4>
+        <p>ML-powered student guidance dashboard combining predictive models with an intelligent chatbot advisor.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Modules</h4>
+        <a href="{{ url_for('career') }}">Career Prediction</a>
+        <a href="{{ url_for('performance') }}">Performance Prediction</a>
+        <a href="{{ url_for('stress') }}">Stress Level</a>
+        <a href="{{ url_for('chat') }}">AI Advisor</a>
+      </div>
+      <div class="footer-col">
+        <h4>Models</h4>
+        <p>CatBoost · SVM · LightGBM</p>
+        <p>XGBoost · Random Forest</p>
+        <p>Gradient Boosting · AdaBoost</p>
+      </div>
+      <div class="footer-col">
+        <h4>Tech Stack</h4>
+        <p>Flask · scikit-learn</p>
+        <p>CatBoost · Pandas</p>
+        <p>OpenAI-compatible API</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 StudentPath. All rights reserved.</span>
+      <span>Built for academic research demonstration</span>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+venv/
+env/
+.venv/
+
+# Environment
+.env
+
+# Models (large binary files)
+models/
+
+# CatBoost artifacts
+catboost_info/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Paper & data
+paper/
+
+# Jupyter
+*.ipynb_checkpoints/

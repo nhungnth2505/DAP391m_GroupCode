@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="module-header">
+  <div class="module-icon career">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+    </svg>
+  </div>
+  <div>
+    <h1 class="module-title">Career Prediction</h1>
+    <p class="module-description">Discover your ideal career path based on your academic strengths, skills, and personality profile using the RIASEC model.</p>
+  </div>
+</div>
+
+<form id="career-form" class="card">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <div class="form-section-title" style="margin-bottom: 0; padding-bottom: 0; border-bottom: none;">Fill in your details</div>
+    <button type="button" class="btn btn-sample" onclick="fillSampleData('career')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </svg>
+      Try Sample Data
+    </button>
+  </div>
+
+  <div class="form-section">
+    <div class="form-section-title">Academic Scores</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="Math_Score">Math Score <span class="required">*</span></label>
+        <input type="number" id="Math_Score" name="Math_Score" min="0" max="100" placeholder="0-100" required>
+      </div>
+      <div class="form-group">
+        <label for="Science_Score">Science Score <span class="required">*</span></label>
+        <input type="number" id="Science_Score" name="Science_Score" min="0" max="100" placeholder="0-100" required>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <div class="form-section-title">Skills (1-5 scale)</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="Programming_Skill">Programming Skill</label>
+        <div class="range-container">
+          <input type="range" id="Programming_Skill" name="Programming_Skill" min="1" max="5" value="3" oninput="updateSlider(this)">
+          <span class="range-value" id="Programming_Skill_value">3</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="Communication_Skill">Communication Skill</label>
+        <div class="range-container">
+          <input type="range" id="Communication_Skill" name="Communication_Skill" min="1" max="5" value="3" oninput="updateSlider(this)">
+          <span class="range-value" id="Communication_Skill_value">3</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="Logical_Ability">Logical Ability</label>
+        <div class="range-container">
+          <input type="range" id="Logical_Ability" name="Logical_Ability" min="1" max="5" value="3" oninput="updateSlider(this)">
+          <span class="range-value" id="Logical_Ability_value">3</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <div class="form-section-title">RIASEC Personality Profile (0-10 each)</div>
+    <p style="font-size: var(--text-small); color: var(--ink-muted); margin-bottom: 16px;">
+      Rate your interest in each area: R=Realistic, I=Investigative, A=Artistic, S=Social, E=Enterprising, C=Conventional
+    </p>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="R_score">R - Realistic (hands-on)</label>
+        <div class="range-container">
+          <input type="range" id="R_score" name="R_score" min="0" max="10" value="5" oninput="updateSlider(this)">
+          <span class="range-value" id="R_score_value">5</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="I_score">I - Investigative (analytical)</label>
+        <div class="range-container">
+          <input type="range" id="I_score" name="I_score" min="0" max="10" value="5" oninput="updateSlider(this)">
+          <span class="range-value" id="I_score_value">5</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="A_score">A - Artistic (creative)</label>
+        <div class="range-container">
+          <input type="range" id="A_score" name="A_score" min="0" max="10" value="5" oninput="updateSlider(this)">
+          <span class="range-value" id="A_score_value">5</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="S_score">S - Social (helping)</label>
+        <div class="range-container">
+          <input type="range" id="S_score" name="S_score" min="0" max="10" value="5" oninput="updateSlider(this)">
+          <span class="range-value" id="S_score_value">5</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="E_score">E - Enterprising (leading)</label>
+        <div class="range-container">
+          <input type="range" id="E_score" name="E_score" min="0" max="10" value="5" oninput="updateSlider(this)">
+          <span class="range-value" id="E_score_value">5</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="C_score">C - Conventional (detail-oriented)</label>
+        <div class="range-container">
+          <input type="range" id="C_score" name="C_score" min="0" max="10" value="5" oninput="updateSlider(this)">
+          <span class="range-value" id="C_score_value">5</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-group" style="margin-top: 24px;">
+    <button type="submit" class="btn btn-primary" id="predict-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </svg>
+      Predict My Career
+    </button>
+    <button type="reset" class="btn btn-secondary">Reset</button>
+  </div>
+</form>
+
+<div id="result-container"></div>
+
+<script>
+document.getElementById('career-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const form = e.target;
+  const btn = document.getElementById('predict-btn');
+  const resultContainer = document.getElementById('result-container');
+
+  const formData = {
+    Math_Score: parseFloat(form.Math_Score.value),
+    Science_Score: parseFloat(form.Science_Score.value),
+    Programming_Skill: parseInt(form.Programming_Skill.value),
+    Communication_Skill: parseInt(form.Communication_Skill.value),
+    Logical_Ability: parseInt(form.Logical_Ability.value),
+    R_score: parseInt(form.R_score.value),
+    I_score: parseInt(form.I_score.value),
+    A_score: parseInt(form.A_score.value),
+    S_score: parseInt(form.S_score.value),
+    E_score: parseInt(form.E_score.value),
+    C_score: parseInt(form.C_score.value)
+  };
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-spinner"></span> Predicting...';
+  resultContainer.innerHTML = '<div class="skeleton skeleton-title"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-chart"></div>';
+
+  try {
+    const response = await fetch('/api/career/predict', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+
+    const result = await response.json();
+
+    if (result.error) {
+      resultContainer.innerHTML = `<div class="error-message">${result.error}</div>`;
+    } else {
+      const careerDescriptions = {
+        'Accountant': 'Organized, detail-oriented work involving numbers and financial records.',
+        'Data Scientist': 'Analytical work extracting insights from data using statistics and programming.',
+        'Doctor': 'Healthcare profession focused on helping others through medical expertise.',
+        'Entrepreneur': 'Business leadership and innovation, creating and managing ventures.',
+        'Software Engineer': 'Technical problem-solving through software design and development.',
+        'Teacher': 'Educating and guiding others, sharing knowledge and inspiring learning.'
+      };
+
+      const careersList = Object.entries(result.all_probabilities)
+        .sort((a, b) => b[1] - a[1])
+        .map(([career, prob]) => `
+          <div class="probability-bar">
+            <span class="probability-label">${career}</span>
+            <div class="probability-track">
+              <div class="probability-fill" style="width: ${prob}%"></div>
+            </div>
+            <span class="probability-value">${prob}%</span>
+          </div>
+        `).join('');
+
+      const riasecScores = [formData.R_score, formData.I_score, formData.A_score, formData.S_score, formData.E_score, formData.C_score];
+      const riasecLabels = ['Realistic', 'Investigative', 'Artistic', 'Social', 'Enterprising', 'Conventional'];
+
+      resultContainer.innerHTML = `
+        <div class="result-card">
+          <div class="card-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--career-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            Your Predicted Career
+          </div>
+          <div class="result-prediction" style="color: var(--career-accent)">${result.prediction}</div>
+          <div class="result-confidence">Confidence: ${result.confidence}%</div>
+          <p style="color: var(--ink-muted); font-size: var(--text-small); margin: 12px 0 24px;">
+            ${careerDescriptions[result.prediction] || ''}
+          </p>
+
+          <div style="display: flex; gap: 32px; flex-wrap: wrap; align-items: flex-start;">
+            <div style="flex-shrink: 0;">
+              <div class="form-section-title">Your RIASEC Profile</div>
+              <canvas id="radar-chart" width="260" height="260"></canvas>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px 16px; max-width: 260px; margin-top: 8px;">
+                ${riasecLabels.map((label, i) => `
+                  <div style="font-size: var(--text-xs); color: var(--ink-muted); display: flex; align-items: center; gap: 4px;">
+                    <span style="width:8px;height:8px;border-radius:50%;background:var(--career-accent);display:inline-block;opacity:${0.3 + (riasecScores[i]/15)}"></span>
+                    ${label}: ${riasecScores[i]}
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+            <div style="flex: 1; min-width: 250px;">
+              <div class="form-section-title">All Career Probabilities</div>
+              ${careersList}
+            </div>
+          </div>
+        </div>
+      `;
+
+      setTimeout(() => drawRadarChart('radar-chart', riasecScores, riasecLabels), 100);
+    }
+  } catch (error) {
+    resultContainer.innerHTML = `<div class="error-message">An error occurred. Please try again.</div>`;
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+    </svg>
+    Predict My Career
+  `;
+});
+</script>
+{% endblock %}

@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="module-header">
+  <div class="module-icon chat">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+  </div>
+  <div>
+    <h1 class="module-title">AI Academic Advisor</h1>
+    <p class="module-description">Chat with an AI advisor that knows your profile from your predictions. Get personalized guidance on career, studies, and wellbeing.</p>
+  </div>
+</div>
+
+<div class="context-panel">
+  <div class="context-panel-header">
+    <div class="context-panel-title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="16" x2="12" y2="12"/>
+        <line x1="12" y1="8" x2="12.01" y2="8"/>
+      </svg>
+      What I know about you
+      <span class="context-panel-badge" id="context-count">0 predictions</span>
+    </div>
+    <button class="btn btn-outline" style="padding: 6px 12px; font-size: var(--text-xs);" onclick="refreshContext()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="23 4 23 10 17 10"/>
+        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+      </svg>
+      Refresh
+    </button>
+  </div>
+  <div class="context-panel-content" id="context-content">
+    {% if context and context != 'No predictions yet.' %}
+      {{ context }}
+    {% else %}
+      <span class="context-empty">No predictions yet. Try making predictions in the Career, Performance, or Stress modules first — the AI advisor will use those results to give you personalized advice.</span>
+    {% endif %}
+  </div>
+</div>
+
+<div class="chat-container">
+  <div class="chat-messages" id="chat-messages">
+    {% for msg in messages %}
+    <div class="chat-message {{ msg.role }}">
+      {{ msg.content }}
+    </div>
+    {% else %}
+    <div class="chat-message assistant">
+      Hello! I'm your AI academic advisor. I've reviewed your prediction results and I'm here to help with any questions about your career, studies, stress management, or personal development. What would you like to know?
+    </div>
+    {% endfor %}
+    <div class="typing-indicator" id="typing-indicator">
+      <div class="typing-dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      Thinking...
+    </div>
+  </div>
+
+  <div class="chat-input-container">
+    <textarea class="chat-input" id="chat-input" placeholder="Ask me anything about your career, studies, or wellbeing..." rows="1"></textarea>
+    <button class="btn btn-primary" id="send-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+      Send
+    </button>
+  </div>
+</div>
+
+<script>
+const chatMessages = document.getElementById('chat-messages');
+const chatInput = document.getElementById('chat-input');
+const sendBtn = document.getElementById('send-btn');
+const typingIndicator = document.getElementById('typing-indicator');
+
+function scrollToBottom() {
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function addMessage(role, content) {
+  const msgDiv = document.createElement('div');
+  msgDiv.className = `chat-message ${role}`;
+  msgDiv.textContent = content;
+  chatMessages.insertBefore(msgDiv, typingIndicator);
+  scrollToBottom();
+}
+
+async function refreshContext() {
+  try {
+    const response = await fetch('/api/history');
+    const history = await response.json();
+    const contextEl = document.getElementById('context-content');
+    const countEl = document.getElementById('context-count');
+
+    let totalPredictions = 0;
+    if (history.career) totalPredictions += history.career.length;
+    if (history.performance) totalPredictions += history.performance.length;
+    if (history.stress) totalPredictions += history.stress.length;
+
+    countEl.textContent = totalPredictions + ' prediction' + (totalPredictions !== 1 ? 's' : '');
+
+    let contextText = [];
+    if (history.career && history.career.length > 0) {
+      const latest = history.career[history.career.length - 1];
+      contextText.push('🎯 Career: ' + latest.prediction + ' (' + latest.confidence + '% confidence)');
+    }
+    if (history.performance && history.performance.length > 0) {
+      const latest = history.performance[history.performance.length - 1];
+      contextText.push('📊 Grade: ' + latest.prediction + '/20 — ' + latest.status);
+    }
+    if (history.stress && history.stress.length > 0) {
+      const latest = history.stress[history.stress.length - 1];
+      contextText.push('💚 Stress: ' + latest.prediction + ' (' + latest.confidence + '% confidence)');
+    }
+
+    if (contextText.length > 0) {
+      contextEl.innerHTML = contextText.join('<br>');
+      contextEl.classList.remove('context-empty');
+    } else {
+      contextEl.innerHTML = '<span class="context-empty">No predictions yet. Try making predictions first!</span>';
+    }
+  } catch (e) {
+    console.error('Failed to refresh context:', e);
+  }
+}
+
+async function sendMessage() {
+  const message = chatInput.value.trim();
+  if (!message) return;
+
+  chatInput.value = '';
+  chatInput.style.height = 'auto';
+  sendBtn.disabled = true;
+
+  addMessage('user', message);
+  typingIndicator.classList.add('visible');
+
+  try {
+    const response = await fetch('/api/chat/message', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message })
+    });
+
+    const result = await response.json();
+
+    typingIndicator.classList.remove('visible');
+
+    if (result.error) {
+      addMessage('assistant', `Sorry, I encountered an error: ${result.error}`);
+    } else {
+      addMessage('assistant', result.response);
+    }
+  } catch (error) {
+    typingIndicator.classList.remove('visible');
+    addMessage('assistant', 'Sorry, I could not connect to the advisor. Please try again.');
+  }
+
+  sendBtn.disabled = false;
+  chatInput.focus();
+}
+
+sendBtn.addEventListener('click', sendMessage);
+
+chatInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+chatInput.addEventListener('input', () => {
+  chatInput.style.height = 'auto';
+  chatInput.style.height = Math.min(chatInput.scrollHeight, 150) + 'px';
+});
+
+// Initialize context count
+refreshContext();
+
+scrollToBottom();
+</script>
+{% endblock %}

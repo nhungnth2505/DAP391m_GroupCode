@@ -1,0 +1,319 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="module-header">
+  <div class="module-icon stress">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+    </svg>
+  </div>
+  <div>
+    <h1 class="module-title">Stress Level Prediction</h1>
+    <p class="module-description">Understand your stress levels based on psychological, physical, environmental, academic, and social factors.</p>
+  </div>
+</div>
+
+<form id="stress-form" class="card">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <div class="form-section-title" style="margin-bottom: 0; padding-bottom: 0; border-bottom: none;">Rate each factor</div>
+    <button type="button" class="btn btn-sample" onclick="fillSampleData('stress')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </svg>
+      Try Sample Data
+    </button>
+  </div>
+
+  <div class="form-section">
+    <div class="form-section-title">Psychological Factors</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="anxiety_level">Anxiety Level (0-21)</label>
+        <div class="range-container">
+          <input type="range" id="anxiety_level" name="anxiety_level" min="0" max="21" value="10" oninput="updateSlider(this)">
+          <span class="range-value" id="anxiety_level_value">10</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="self_esteem">Self-Esteem (0-30)</label>
+        <div class="range-container">
+          <input type="range" id="self_esteem" name="self_esteem" min="0" max="30" value="15" oninput="updateSlider(this)">
+          <span class="range-value" id="self_esteem_value">15</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="depression">Depression Symptoms (0-27)</label>
+        <div class="range-container">
+          <input type="range" id="depression" name="depression" min="0" max="27" value="10" oninput="updateSlider(this)">
+          <span class="range-value" id="depression_value">10</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <div class="form-section-title">Physical Health</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="headache">Headache Frequency (1-5)</label>
+        <div class="range-container">
+          <input type="range" id="headache" name="headache" min="1" max="5" value="3" oninput="updateSlider(this)">
+          <span class="range-value" id="headache_value">3</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="blood_pressure">Blood Pressure (1-3)</label>
+        <div class="range-container">
+          <input type="range" id="blood_pressure" name="blood_pressure" min="1" max="3" value="2" oninput="updateSlider(this)">
+          <span class="range-value" id="blood_pressure_value">2</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="sleep_quality">Sleep Quality (1-5)</label>
+        <div class="range-container">
+          <input type="range" id="sleep_quality" name="sleep_quality" min="1" max="5" value="3" oninput="updateSlider(this)">
+          <span class="range-value" id="sleep_quality_value">3</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="breathing_problem">Breathing Problems (1-5)</label>
+        <div class="range-container">
+          <input type="range" id="breathing_problem" name="breathing_problem" min="1" max="5" value="3" oninput="updateSlider(this)">
+          <span class="range-value" id="breathing_problem_value">3</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <div class="form-section-title">Environment</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="noise_level">Noise Level (1-5)</label>
+        <div class="range-container">
+          <input type="range" id="noise_level" name="noise_level" min="1" max="5" value="3" oninput="updateSlider(this)">
+          <span class="range-value" id="noise_level_value">3</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="living_conditions">Living Conditions (1-5)</label>
+        <div class="range-container">
+          <input type="range" id="living_conditions" name="living_conditions" min="1" max="5" value="3" oninput="updateSlider(this)">
+          <span class="range-value" id="living_conditions_value">3</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="safety">Safety (1-5)</label>
+        <div class="range-container">
+          <input type="range" id="safety" name="safety" min="1" max="5" value="3" oninput="updateSlider(this)">
+          <span class="range-value" id="safety_value">3</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="basic_needs">Basic Needs Met (1-5)</label>
+        <div class="range-container">
+          <input type="range" id="basic_needs" name="basic_needs" min="1" max="5" value="3" oninput="updateSlider(this)">
+          <span class="range-value" id="basic_needs_value">3</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <div class="form-section-title">Academic Factors</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="academic_performance">Academic Performance (1-5)</label>
+        <div class="range-container">
+          <input type="range" id="academic_performance" name="academic_performance" min="1" max="5" value="3" oninput="updateSlider(this)">
+          <span class="range-value" id="academic_performance_value">3</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="study_load">Study Load (1-5)</label>
+        <div class="range-container">
+          <input type="range" id="study_load" name="study_load" min="1" max="5" value="3" oninput="updateSlider(this)">
+          <span class="range-value" id="study_load_value">3</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="teacher_student_relationship">Teacher Relationship (1-5)</label>
+        <div class="range-container">
+          <input type="range" id="teacher_student_relationship" name="teacher_student_relationship" min="1" max="5" value="3" oninput="updateSlider(this)">
+          <span class="range-value" id="teacher_student_relationship_value">3</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="future_career_concerns">Future Career Concerns (1-5)</label>
+        <div class="range-container">
+          <input type="range" id="future_career_concerns" name="future_career_concerns" min="1" max="5" value="3" oninput="updateSlider(this)">
+          <span class="range-value" id="future_career_concerns_value">3</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <div class="form-section-title">Social Factors</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="social_support">Social Support (0-3)</label>
+        <div class="range-container">
+          <input type="range" id="social_support" name="social_support" min="0" max="3" value="2" oninput="updateSlider(this)">
+          <span class="range-value" id="social_support_value">2</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="peer_pressure">Peer Pressure (1-5)</label>
+        <div class="range-container">
+          <input type="range" id="peer_pressure" name="peer_pressure" min="1" max="5" value="3" oninput="updateSlider(this)">
+          <span class="range-value" id="peer_pressure_value">3</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="extracurricular_activities">Extra-Curricular (1-5)</label>
+        <div class="range-container">
+          <input type="range" id="extracurricular_activities" name="extracurricular_activities" min="1" max="5" value="3" oninput="updateSlider(this)">
+          <span class="range-value" id="extracurricular_activities_value">3</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="bullying">Bullying (1-5)</label>
+        <div class="range-container">
+          <input type="range" id="bullying" name="bullying" min="1" max="5" value="1" oninput="updateSlider(this)">
+          <span class="range-value" id="bullying_value">1</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="mental_health_history">Mental Health History</label>
+        <select id="mental_health_history" name="mental_health_history">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-group" style="margin-top: 24px;">
+    <button type="submit" class="btn btn-primary" id="predict-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </svg>
+      Predict Stress Level
+    </button>
+    <button type="reset" class="btn btn-secondary">Reset</button>
+  </div>
+</form>
+
+<div id="result-container"></div>
+
+<script>
+document.getElementById('stress-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const form = e.target;
+  const btn = document.getElementById('predict-btn');
+  const resultContainer = document.getElementById('result-container');
+
+  const formData = {
+    anxiety_level: parseInt(form.anxiety_level.value),
+    self_esteem: parseInt(form.self_esteem.value),
+    mental_health_history: parseInt(form.mental_health_history.value),
+    depression: parseInt(form.depression.value),
+    headache: parseInt(form.headache.value),
+    blood_pressure: parseInt(form.blood_pressure.value),
+    sleep_quality: parseInt(form.sleep_quality.value),
+    breathing_problem: parseInt(form.breathing_problem.value),
+    noise_level: parseInt(form.noise_level.value),
+    living_conditions: parseInt(form.living_conditions.value),
+    safety: parseInt(form.safety.value),
+    basic_needs: parseInt(form.basic_needs.value),
+    academic_performance: parseInt(form.academic_performance.value),
+    study_load: parseInt(form.study_load.value),
+    teacher_student_relationship: parseInt(form.teacher_student_relationship.value),
+    future_career_concerns: parseInt(form.future_career_concerns.value),
+    social_support: parseInt(form.social_support.value),
+    peer_pressure: parseInt(form.peer_pressure.value),
+    extracurricular_activities: parseInt(form.extracurricular_activities.value),
+    bullying: parseInt(form.bullying.value)
+  };
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-spinner"></span> Analyzing...';
+  resultContainer.innerHTML = '<div class="skeleton skeleton-title"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-chart"></div>';
+
+  try {
+    const response = await fetch('/api/stress/predict', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+
+    const result = await response.json();
+
+    if (result.error) {
+      resultContainer.innerHTML = `<div class="error-message">${result.error}</div>`;
+    } else {
+      const levelClass = result.prediction.toLowerCase();
+      const levelMessages = {
+        'Low': 'Great job managing your stress! Keep up with your healthy habits.',
+        'Medium': 'Your stress levels are moderate. Consider exploring stress management techniques.',
+        'High': 'Your stress levels are elevated. Consider seeking support from counselors or trusted mentors.'
+      };
+
+      const gaugeValue = result.prediction === 'Low' ? 25 : result.prediction === 'Medium' ? 60 : 90;
+      const gaugeColor = result.prediction === 'Low' ? 'var(--sage)' : result.prediction === 'Medium' ? 'var(--amber)' : 'var(--coral)';
+
+      const probsList = Object.entries(result.all_probabilities)
+        .sort((a, b) => b[1] - a[1])
+        .map(([level, prob]) => `
+          <div class="probability-bar">
+            <span class="probability-label">${level}</span>
+            <div class="probability-track">
+              <div class="probability-fill" style="width: ${prob}%; background: ${level === 'Low' ? 'var(--sage)' : level === 'Medium' ? 'var(--amber)' : 'var(--coral)'}"></div>
+            </div>
+            <span class="probability-value">${prob}%</span>
+          </div>
+        `).join('');
+
+      resultContainer.innerHTML = `
+        <div class="result-card">
+          <div class="card-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--stress-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+            Your Stress Level
+          </div>
+          <div style="display: flex; gap: 32px; flex-wrap: wrap; align-items: center;">
+            <div class="gauge-container">
+              <svg id="stress-gauge" width="200" height="200"></svg>
+            </div>
+            <div style="flex: 1; min-width: 250px;">
+              <div class="result-prediction" style="color: ${gaugeColor}; font-size: 1.8rem;">${result.prediction} Stress</div>
+              <div class="result-confidence">Confidence: ${result.confidence}%</div>
+              <span class="result-badge ${levelClass}">${levelMessages[result.prediction] || ''}</span>
+              <div class="result-probabilities">
+                <div class="form-section-title">All Level Probabilities</div>
+                ${probsList}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      setTimeout(() => drawGauge('stress-gauge', gaugeValue, 100, result.prediction + ' Stress', gaugeColor), 100);
+    }
+  } catch (error) {
+    resultContainer.innerHTML = `<div class="error-message">An error occurred. Please try again.</div>`;
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+    </svg>
+    Predict Stress Level
+  `;
+});
+</script>
+{% endblock %}
